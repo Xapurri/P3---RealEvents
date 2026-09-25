@@ -1,0 +1,17 @@
+# Visual Studio
+.vs/
+Debug/
+Release/
+x64/
+*.user
+*.suo
+*.obj
+*.pdb
+*.ilk
+
+# Built mod
+RealEvents.dll
+
+# Runtime state
+RealEvents_*.dat
+RealEvents_*.tmp
