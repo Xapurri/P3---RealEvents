@@ -1,5 +1,7 @@
 # Real Events para Patrician III
 
+ <img src="docs/images/logo.png" alt="Patrician 3 - Real Events" width="360">
+
 **Versión:** 0.1.0  
 **Estado:** primera candidata a versión pública
 
