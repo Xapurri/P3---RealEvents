@@ -19,6 +19,8 @@ Real Events añade eventos económicos dinámicos a *Patrician III*. Las ciudade
 
 ## Instalación prevista
 
+Real Events está probado con la versión GOG de *Patrician III* y el ejecutable de 32 bits utilizado por el modloader de P3Modding.
+
 La DLL pública será:
 
 ```text
@@ -26,6 +28,17 @@ RealEvents.dll
 ```
 
 y deberá copiarse en la carpeta `mods` del modloader de P3Modding.
+
+El flujo esperado es el mismo que documenta P3Modding para su modloader:
+
+1. Colocar `p3_modloader.dll` y `Patrician3_modloader.exe` en la carpeta de *Patrician III*.
+2. Crear una carpeta `mods`.
+3. Copiar las DLLs de los mods dentro de `mods`.
+4. Iniciar el juego con `Patrician3_modloader.exe`.
+
+Referencia: https://p3modding.github.io/modloader.html
+
+Otras versiones del ejecutable del juego podrían funcionar, pero v0.1.0 solo se ha validado con la versión GOG.
 
 ## Estado de la configuración
 
@@ -36,3 +49,13 @@ En v0.1.0 los parámetros están todavía compilados en la DLL. No se incluye un
 Consulta `docs/reverse-engineering.md`, `docs/memory-layout.md` y `docs/hooks.md`.
 
 La documentación diferencia siempre entre información ya existente en P3Modding/comunidad y descubrimientos confirmados mediante nuestras propias pruebas.
+
+## Capturas
+
+| Crisis de producción | Boom de producción |
+| --- | --- |
+| <img src="docs/images/informer_crisis.png" alt="Rumor del Informer para un evento de crisis de producción" width="360"> | <img src="docs/images/informer_boom.png" alt="Rumor del Informer para un evento de boom de producción" width="360"> |
+
+## Licencia
+
+Publicado bajo la Apache License, Version 2.0. Consulta `LICENSE`.

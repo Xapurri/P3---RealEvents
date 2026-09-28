@@ -19,7 +19,7 @@ Real Events adds dynamic economic events to *Patrician III*. Cities can temporar
 
 ## Requirements
 
-Real Events is designed for the 32-bit Patrician III executable used by the P3Modding modloader.
+Real Events is designed for the GOG release of *Patrician III* and the 32-bit executable used by the P3Modding modloader.
 
 The P3Modding modloader documentation describes the standard layout:
 
@@ -29,6 +29,8 @@ The P3Modding modloader documentation describes the standard layout:
 4. Launch `Patrician3_modloader.exe`.
 
 Reference: https://p3modding.github.io/modloader.html
+
+Other game executable builds may work, but v0.1.0 has only been validated against the GOG version.
 
 ## Installation
 
@@ -94,7 +96,7 @@ These are testing tools and are not intended for the normal release DLL.
 
 ## Compatibility
 
-v0.1.0 currently relies on confirmed addresses and instruction sequences from the tested Patrician III executable used with the P3Modding modloader. Other executable versions may require separate validation.
+v0.1.0 currently relies on confirmed addresses and instruction sequences from the tested GOG *Patrician III* executable used with the P3Modding modloader. Other executable versions may require separate validation.
 
 The hook installer checks expected bytes before installing hooks. If a target sequence does not match, that hook is not installed.
 
@@ -117,6 +119,12 @@ Important distinction used throughout the documentation:
 - **Observed:** reproducible observation whose full semantics are not yet known.
 - **Hypothesis:** working theory that still requires confirmation.
 
+## Screenshots
+
+| Production crisis | Production boom |
+| --- | --- |
+| <img src="docs/images/informer_crisis.png" alt="Informer rumour for a production crisis event" width="360"> | <img src="docs/images/informer_boom.png" alt="Informer rumour for a production boom event" width="360"> |
+
 ## Credits and prior work
 
 Real Events builds on public Patrician III reverse-engineering work, especially:
@@ -130,4 +138,4 @@ See `THIRD_PARTY.md` for attribution notes.
 
 ## License
 
-A project license has **not yet been selected**. Do not publish the repository as an open-source release until `LICENSE-TODO.md` has been resolved.
+Licensed under the Apache License, Version 2.0. See `LICENSE`.

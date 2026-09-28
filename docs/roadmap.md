@@ -6,7 +6,6 @@
 - Test more Patrician III language/executable variants.
 - Improve graceful failure reporting when a hook signature does not match.
 - Identify and credit the exact Cheat Engine table/source used during research.
-- Decide project license.
 
 ## 0.2.0 — configuration
 
