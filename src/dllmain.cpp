@@ -19,7 +19,9 @@
 // Dinero
 constexpr uintptr_t MERCHANTS_BASE_PTR = 0x006DE518;
 constexpr uintptr_t PLAYER_MERCHANT_OFFSET = 0xE340;
+#if REAL_EVENTS_DEBUG_TOOLS
 constexpr int MONEY_INCREMENT = 100000;
+#endif
 
 // Mundo
 constexpr uintptr_t GAME_WORLD = 0x006DE4A0;
@@ -45,10 +47,12 @@ constexpr uintptr_t PLAYER_NAME_PTR_OFFSET = 0xE8;
 
 constexpr uint8_t LUEBECK_RAW_ID = 0x0E;
 
+#if REAL_EVENTS_DEBUG_TOOLS
 // Evento manual de F11 en Luebeck:
 // OFF -> CRISIS -> BOOM -> OFF
 constexpr int MANUAL_CRISIS_PERCENT = 50;
 constexpr int MANUAL_BOOM_PERCENT = 150;
+#endif
 
 enum ProductionEventType
 {
@@ -164,8 +168,10 @@ static const char* const RAW_TOWN_NAMES[0x28] =
 // ESTADO GLOBAL
 // ============================================================
 
+#if REAL_EVENTS_DEBUG_TOOLS
 // F11: EVENT_NONE / EVENT_CRISIS / EVENT_BOOM
 static volatile LONG g_manualLuebeckMode = EVENT_NONE;
+#endif
 
 // Direcciones / indices
 static uintptr_t g_luebeckAddress = 0;
@@ -601,6 +607,7 @@ void UpdateAddresses()
 // DINERO
 // ============================================================
 
+#if REAL_EVENTS_DEBUG_TOOLS
 uintptr_t GetMoneyAddress()
 {
     __try
@@ -642,6 +649,7 @@ bool AddMoney(int amount)
         return false;
     }
 }
+#endif
 
 int RandomRange(int minValue, int maxValue);
 
@@ -1228,21 +1236,6 @@ int ChooseRandomProductionEventType()
     return EVENT_BOOM;
 }
 
-int GetManualLuebeckPercent()
-{
-    const LONG mode =
-        AtomicRead(
-            &g_manualLuebeckMode);
-
-    if (mode == EVENT_CRISIS)
-        return MANUAL_CRISIS_PERCENT;
-
-    if (mode == EVENT_BOOM)
-        return MANUAL_BOOM_PERCENT;
-
-    return 100;
-}
-
 // ============================================================
 // EVENT MANAGER - CONSULTAS
 // ============================================================
@@ -1300,6 +1293,7 @@ int CountAutoEvents()
 
 bool ManualLuebeckIsSeparateEventCity()
 {
+#if REAL_EVENTS_DEBUG_TOOLS
     if (AtomicRead(
         &g_manualLuebeckMode) == 0)
     {
@@ -1316,6 +1310,9 @@ bool ManualLuebeckIsSeparateEventCity()
 
     return FindAutoCrisisSlotByTown(
         luebeckIndex) < 0;
+#else
+    return false;
+#endif
 }
 
 int CountActiveEventCities()
@@ -1333,6 +1330,7 @@ int CountActiveEventCities()
 // 100 = normal, 50 = produce la mitad.
 int GetProductionPercent(int townIndex)
 {
+#if REAL_EVENTS_DEBUG_TOOLS
     const int luebeckIndex =
         static_cast<int>(
             AtomicRead(
@@ -1352,6 +1350,7 @@ int GetProductionPercent(int townIndex)
             ? MANUAL_BOOM_PERCENT
             : MANUAL_CRISIS_PERCENT;
     }
+#endif
 
     const int autoSlot =
         FindAutoCrisisSlotByTown(
@@ -1513,6 +1512,7 @@ bool AddRandomAutoEvent(
         return false;
     }
 
+#if REAL_EVENTS_DEBUG_TOOLS
     const int manualLuebeckIndex =
         static_cast<int>(
             AtomicRead(
@@ -1521,6 +1521,7 @@ bool AddRandomAutoEvent(
     const bool manualActive =
         AtomicRead(
             &g_manualLuebeckMode) != 0;
+#endif
 
     const int start =
         RandomRange(
@@ -1543,12 +1544,14 @@ bool AddRandomAutoEvent(
             continue;
         }
 
+#if REAL_EVENTS_DEBUG_TOOLS
         if (manualActive &&
             candidate ==
                 manualLuebeckIndex)
         {
             continue;
         }
+#endif
 
         const int months =
             RandomRange(
@@ -1863,6 +1866,7 @@ void EventManagerPollGameDay()
 // F11 MANUAL LUEBECK: CRISIS -> BOOM -> OFF
 // ============================================================
 
+#if REAL_EVENTS_DEBUG_TOOLS
 void ToggleManualLuebeckEvent()
 {
     UpdateAddresses();
@@ -1916,6 +1920,7 @@ void ToggleManualLuebeckEvent()
     EnsureMinimumEvents(
         GetGameDaySerial());
 }
+#endif
 
 // ============================================================
 // INFORMER: RUMORES SOBRE EVENTOS DE PRODUCCION
@@ -1972,6 +1977,7 @@ int CollectInformerEventCandidates(
     const uint32_t gameDay =
         GetGameDaySerial();
 
+#if REAL_EVENTS_DEBUG_TOOLS
     const int luebeckIndex =
         static_cast<int>(
             AtomicRead(
@@ -1983,6 +1989,7 @@ int CollectInformerEventCandidates(
                 &g_manualLuebeckMode));
 
     bool luebeckAdded = false;
+#endif
 
     // Primero los eventos AUTO.
     for (int i = 0;
@@ -2023,6 +2030,7 @@ int CollectInformerEventCandidates(
 
         bool manual = false;
 
+#if REAL_EVENTS_DEBUG_TOOLS
         // Si F11 esta activo en Luebeck, representa el estado efectivo
         // que esta viendo el jugador, incluso si debajo hay un AUTO.
         if (townIndex == luebeckIndex &&
@@ -2038,6 +2046,7 @@ int CollectInformerEventCandidates(
             remaining = -1;
             luebeckAdded = true;
         }
+#endif
 
         if (eventType != EVENT_CRISIS &&
             eventType != EVENT_BOOM)
@@ -2055,6 +2064,7 @@ int CollectInformerEventCandidates(
         c.manual = manual;
     }
 
+#if REAL_EVENTS_DEBUG_TOOLS
     // F11 puede existir sin AUTO en Luebeck.
     if (count < capacity &&
         manualMode != EVENT_NONE &&
@@ -2076,6 +2086,7 @@ int CollectInformerEventCandidates(
         c.remainingDays = -1;
         c.manual = true;
     }
+#endif
 
     return count;
 }
@@ -2982,6 +2993,22 @@ bool InstallTownProductionHook()
 // DEBUG
 // ============================================================
 
+#if REAL_EVENTS_DEBUG_TOOLS
+int GetManualLuebeckPercent()
+{
+    const LONG mode =
+        AtomicRead(
+            &g_manualLuebeckMode);
+
+    if (mode == EVENT_CRISIS)
+        return MANUAL_CRISIS_PERCENT;
+
+    if (mode == EVENT_BOOM)
+        return MANUAL_BOOM_PERCENT;
+
+    return 100;
+}
+
 void AppendText(
     char* buffer,
     size_t capacity,
@@ -3356,6 +3383,7 @@ void ShowDebugInfo()
         MB_OK |
         MB_ICONINFORMATION);
 }
+#endif
 
 // ============================================================
 // THREAD

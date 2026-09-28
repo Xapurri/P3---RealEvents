@@ -17,7 +17,6 @@ All notable changes to Real Events are documented here.
 - Private/Trader production hook.
 - Tavern Informer rumour integration.
 - Runtime hook byte validation.
-- Development debug window and manual Lübeck event controls.
 
 ### Fixed
 - Boom events originally failed to apply because the production helper returned early for every percentage `>= 100`; the condition was corrected so only exactly `100%` bypasses scaling.
@@ -26,7 +25,7 @@ All notable changes to Real Events are documented here.
 ### Changed
 - Public project name changed from the development name EventManager/MoneyMod to **Real Events**.
 - Persistence filenames now use `RealEvents_<campaign-hash>.dat`.
-- Development hotkeys are disabled by default in public builds.
+- Development hotkeys and diagnostic tools are excluded from public builds.
 
 ### Known limitations
 - External INI configuration is not implemented yet.

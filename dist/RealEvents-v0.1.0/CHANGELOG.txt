@@ -1,0 +1,43 @@
+Real Events v0.1.0
+==================
+
+First public release candidate.
+
+Added
+-----
+
+- Dynamic production event system.
+- Production crisis event type.
+- Production boom event type.
+- 1 to 5 simultaneous event cities.
+- Random event duration from 1 to 12 30-day months.
+- Random event evaluation interval from 30 to 90 game days.
+- Absolute-day tracking based on Gametime / 256.
+- Per-campaign sidecar persistence.
+- Town production hook.
+- Private/Trader production hook.
+- Tavern Informer rumour integration.
+- Runtime hook byte validation.
+
+Fixed
+-----
+
+- Boom events originally failed to apply because the production helper returned
+  early for every percentage >= 100. The condition now only bypasses scaling at
+  exactly 100%.
+- Debug window formatting crash fixed during development.
+
+Changed
+-------
+
+- Public project name is Real Events.
+- Persistence filenames use RealEvents_<campaign-hash>.dat.
+- Development hotkeys and diagnostic tools are excluded from the public build.
+
+Known limitations
+-----------------
+
+- External INI configuration is not implemented yet.
+- Informer event prose is English only.
+- Compatibility is validated only against the tested GOG executable/modloader
+  build.

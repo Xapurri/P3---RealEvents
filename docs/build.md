@@ -7,7 +7,7 @@ Real Events is currently written as a 32-bit Windows DLL.
 - Visual Studio / MSVC
 - Win32 / x86 target
 - Release configuration for public builds
-- Existing project precompiled header setup (`pch.h`)
+- Precompiled headers disabled in the project; `src/pch.h` is a lightweight compatibility include.
 - MSVC x86 inline assembly support
 
 The exported entry point required by the modloader is:
@@ -30,6 +30,12 @@ The resulting DLL should be named:
 
 ```text
 RealEvents.dll
+```
+
+Build command:
+
+```bat
+MSBuild.exe RealEvents.sln /m /p:Configuration=Release /p:Platform=Win32 /v:minimal
 ```
 
 ## Development build
